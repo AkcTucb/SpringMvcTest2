@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Список пользователей</title>
 </head>
 <body>
@@ -19,14 +19,17 @@
         <td th:text="${user.email}"></td>
         <td>
             <a th:href="@{/user/edit(id=${user.id})}">Редактировать</a>
-            <a th:href="@{/user/delete(id=${user.id})}"
-               onclick="return confirm('Удалить пользователя?');">
-                Удалить
-            </a>
+            <form th:action="@{/user/delete}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="delete"/>
+                <input type="hidden" name="id" th:value="${user.id}"/>
+                <button type="submit" onclick="return confirm('Удалить пользователя?');">Удалить</button>
+            </form>
         </td>
     </tr>
 </table>
+
 <br>
 <a th:href="@{/user/add}">Добавить пользователя</a>
+
 </body>
 </html>
