@@ -9,19 +9,18 @@ import ru.Akctucb.springmvc.SpringMvcTest2.model.User;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User getUser(Long id) {
         return userDao.getUserById(id);
     }
