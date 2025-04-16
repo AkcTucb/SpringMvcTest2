@@ -34,13 +34,21 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User userFromForm) {
-        userDao.updateUser(userFromForm);
+        User existingUser = userDao.getUserById(userFromForm.getId());
+        if (existingUser != null) {
+            existingUser.setName(userFromForm.getName());
+            existingUser.setEmail(userFromForm.getEmail());
+            userDao.updateUser(existingUser);
+        }
     }
 
     @Transactional
     @Override
     public void deleteUser(Long id) {
-        userDao.deleteUser(id);
+        User user = userDao.getUserById(id);
+        if (user != null) {
+            userDao.deleteUser(id);
+        }
     }
 }
 

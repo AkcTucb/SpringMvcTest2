@@ -9,20 +9,24 @@ import ru.Akctucb.springmvc.SpringMvcTest2.service.UserService;
 
 import java.util.List;
 
+
 @Controller
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @GetMapping("/users")
     public String listUsers(Model model) {
-        List<User> userList = userService.getAllUsers();
-        model.addAttribute("users", userList);
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         return "userlist";
     }
-
 
 
     @GetMapping("/user/add")
@@ -41,19 +45,15 @@ public class UserController {
 
     @GetMapping("/user/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUser(id));
         return "userform";
     }
 
-
     @PostMapping("/user/edit")
     public String updateUser(@ModelAttribute("user") User user) {
-        System.out.println("ID пользователя: " + user.getId());
         userService.update(user);
         return "redirect:/users";
     }
-
 
     @DeleteMapping("/user/delete")
     public String deleteUser(@RequestParam("id") Long id) {
